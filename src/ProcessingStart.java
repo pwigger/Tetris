@@ -1,11 +1,12 @@
 /**
  * Created by pwg on 18.04.16.
  */
+
 import processing.core.*;
 import processing.core.PApplet;
 
 public class ProcessingStart extends PApplet {
-  //  public static void main(String[] args) {
+    //  public static void main(String[] args) {
     //    PApplet.main(new String[] {"ProcessingStart"});
 
     //}
@@ -14,57 +15,63 @@ public class ProcessingStart extends PApplet {
         PApplet.main("ProcessingStart");
     }
 
-    Rechteck[] elemente= new Rechteck[400];
+    public int[][] tetris = new int[30][12];
+    public boolean isMoving = false;
 
-    public void settings(){size(400, 400);}
+    public void settings() {
+        size(240, 600);
+    }
+
     public void setup() {
-
-        for (int i=0; i<20; i++) {
-            for (int i1=0; i1<20; i1++) {
-                elemente[i*20+i1]=new Rechteck(i*20, i1*20);
+        frameRate(10);
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 12; j++) {
+                tetris[i][j] = 0;
             }
         }
+
     }
+
     public void draw() {
-        background(255, 255, 255);
 
-        for (int i=0; i<400; i++) {
-            elemente[i].paint();
-            if (elemente[i].zeit == 0) {
-                elemente[i].zeit = (int)random(200, 255);
+        fill(255, 0, 0);
+        stroke(255, 255, 255);
+
+        for (int i = 0; i < tetris.length; i++) {
+            for (int j = 0; j < tetris[i].length; j++) {
+                if (tetris[i][j] == 0) {
+                    fill(0, 0, 0);
+                } else {
+                    fill(255, 255, 255);
+                }
+                rect(j * 20, i * 20, 20, 20);
             }
         }
-    }
-    public class Rechteck {
-
-        int zeit;
-        int x, y;
-        boolean clickable;
-
-        public Rechteck(int x, int y) {
-
-            zeit = (int) random(0, 255);
-            this.x=x;
-            this.y=y;
+        fallingStone();
+        if (!isMoving) {
+            dropBrick();
         }
-        public void paint() {
-            fill(0, 0, 0);
-            if (zeit<40) {
-                fill(255, 0, 0);
-            }
-            if (clickable) {
-                fill(0, 255, 0);
-            }
-            rect(x, y, 20, 20);
-            zeit--;
-            if (mousePressed && zeit<100 && mouseX/20==x/20 && mouseY/20==y/20) {
-                clickable=true;
-            }
-        }
+
     }
 
+    public void fallingStone() {
+        isMoving = false;
+        for (int i = tetris.length - 2; i >= 0; i--) {
+            for (int j = tetris[i].length - 1; j >= 0; j--) {
+                if (tetris[i][j] == 1&& tetris[i+1][j]==0) {
+                    tetris[i + 1][j] = 1;
+                    tetris[i][j] = 0;
+                    isMoving = true;
+                }
 
+            }
 
+        }
+    }
+
+    public void dropBrick() {
+        tetris[0][(int) random(0, 11)] = 1;
+    }
 
 
 }
