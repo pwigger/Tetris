@@ -1,4 +1,14 @@
-.idea/libraries/core.xml
+
+# User-specific stuff:
 .idea/workspace.xml
-.out
-.idea/libraries/core.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
+
+# IntelliJ
+/out/
+
+### Intellij Patch ###
+*.iml
